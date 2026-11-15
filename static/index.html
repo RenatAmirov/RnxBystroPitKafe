@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f1">
+  <meta name="description" content="Касса и табло заказов кафе БыстроПит">
+  <title>БыстроПит · Касса кафе</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" aria-label="БыстроПит — главная">
+        <span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Быстро<span class="brand-accent">Пит</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Разделы">
+        <a class="nav-link active" href="#cashier">Касса</a>
+        <a class="nav-link" href="#board">Табло заказов</a>
+      </nav>
+      <div class="connection" id="connection" role="status">
+        <span class="signal" aria-hidden="true"></span>
+        <span id="connection-label">Подключение к RabbitMQ</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <section class="hero" id="cashier" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">КАССА КАФЕ</p>
+        <h1 id="hero-title">Что будем<br>готовить?</h1>
+        <p>Выберите блюда и проследите путь заказа до выдачи.</p>
+      </div>
+    </section>
+
+    <div class="cashier-grid">
+      <section aria-labelledby="menu-title">
+        <div class="section-heading">
+          <h2 id="menu-title">Меню</h2>
+          <span class="section-note" id="menu-count"></span>
+        </div>
+        <div class="menu-grid" id="menu">
+          <p class="empty-note">Загружаем меню…</p>
+        </div>
+      </section>
+
+      <section class="cart" aria-labelledby="cart-title">
+        <div class="cart-heading">
+          <h2 id="cart-title">Ваш заказ</h2>
+          <span id="cart-count" class="count" aria-label="Позиций в заказе">0</span>
+        </div>
+        <div class="cart-body" id="cart-items"></div>
+        <div class="cart-bottom">
+          <div class="cart-total"><span>Итого</span><strong id="cart-total">0 ₽</strong></div>
+          <button class="checkout" id="checkout" type="button" disabled>
+            <span>Отправить заказ</span><span class="arrow" aria-hidden="true">↗</span>
+          </button>
+          <p class="feedback" id="order-feedback" role="status"></p>
+        </div>
+      </section>
+    </div>
+
+    <section class="board" id="board" aria-labelledby="board-title">
+      <div class="board-heading">
+        <div>
+          <h2 id="board-title">Табло заказов</h2>
+          <p>Статусы обновляются автоматически</p>
+        </div>
+        <button class="pause" id="pause" type="button" disabled>
+          <span class="pause-symbol" aria-hidden="true"></span>
+          <span id="pause-label">Пауза кухни</span>
+        </button>
+      </div>
+      <p class="feedback" id="board-feedback" role="status"></p>
+      <div class="board-grid">
+        <section class="lane queued" aria-labelledby="queued-label">
+          <div class="lane-heading">
+            <span class="lane-dot" aria-hidden="true"></span>
+            <h3 id="queued-label">В очереди</h3>
+            <span class="count" id="queued-count">0</span>
+          </div>
+          <p class="lane-stage">RabbitMQ</p>
+          <div id="queued-list" class="lane-orders"><p class="empty-note">Очередь пуста</p></div>
+        </section>
+        <section class="lane cooking" aria-labelledby="cooking-label">
+          <div class="lane-heading">
+            <span class="lane-dot" aria-hidden="true"></span>
+            <h3 id="cooking-label">Готовятся</h3>
+            <span class="count" id="cooking-count">0</span>
+          </div>
+          <p class="lane-stage">Кухня</p>
+          <div id="cooking-list" class="lane-orders"><p class="empty-note">Кухня свободна</p></div>
+        </section>
+        <section class="lane ready" aria-labelledby="ready-label">
+          <div class="lane-heading">
+            <span class="lane-dot" aria-hidden="true"></span>
+            <h3 id="ready-label">Готовы</h3>
+            <span class="count" id="ready-count">0</span>
+          </div>
+          <p class="lane-stage">Полка выдачи</p>
+          <div id="ready-list" class="lane-orders"><p class="empty-note">Пока нет готовых заказов</p></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>БыстроПит · Симулятор кафе</span>
+      <a href="/docs">Документация API <span aria-hidden="true">↗</span></a>
+    </div>
+  </footer>
+</body>
+</html>
